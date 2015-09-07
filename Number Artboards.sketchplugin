@@ -1,4 +1,4 @@
-function insertToArray(o, arr) {
+function insertToArray(obj, arr) {
 	if (arr.length == 0) {
 		arr.push(obj);
 	} else {
