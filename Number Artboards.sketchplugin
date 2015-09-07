@@ -1,0 +1,57 @@
+function insertToArray(o, arr) {
+	if (arr.length == 0) {
+		arr.push(obj);
+	} else {
+		var i;
+		for (i = 0; i < arr.length; i++) {
+			if ((obj.x < arr[i].x) ||
+				(obj.x == arr[i].x && obj.y < arr[i].y)) {
+				arr.splice(i, 0, obj);
+				break;
+			}
+		};
+		if (i == arr.length) {
+			arr.push(obj);
+		}
+	}
+}
+
+if (selection.count() > 0) {
+	var arr = [];
+	var previous;
+	for (var i=0; i<selection.count(); i++) {
+		var artboard = selection[i];
+
+		// Get artboard
+		while (artboard && !(artboard instanceof MSArtboardGroup)) {
+			artboard = artboard.parentGroup();
+		}
+
+		// Layer is out of artboards
+		if (!artboard)
+			continue;
+
+		// Duplicated artboards
+		if (artboard == previous)
+			continue;
+
+		previous = artboard;
+
+		var obj = {
+			artboard: artboard,
+			x: artboard.frame().x(),
+			y: artboard.frame().y() };
+
+		insertToArray(obj, arr);
+	}
+
+	for (var i = 0; i < arr.length; i++) {
+		var artboard = arr[i].artboard;
+
+		// Get current name. If it contains number, then erase it
+		var curNameWONumber = artboard.name().replace(/^\d+\. /, '');
+
+		// Set new name
+		artboard.setName((i < 9 ? '0' : '') + (i+1) + '. ' + curNameWONumber);
+	};
+}
