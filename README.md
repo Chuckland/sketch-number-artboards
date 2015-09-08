@@ -5,7 +5,7 @@ Simple sketch plug-in to number artboards
 
 Plug-in puts number to artboard name.
 
-For example: artboard with name "Screen" becomes "01. Screen". If number in same style already presents at the beginning of artboard name, it will be replaced.
+For example: artboard with name "Screen" becomes "01. Screen". If same style number presents in artboard name, it will be replaced.
 
 ![Artboards in one line](https://dl.dropboxusercontent.com/u/18435190/sketch-number-artboards/one-line.png)
 
