@@ -1,0 +1,33 @@
+{
+    "name" : "Number Artboards",
+    "author" : "Anton Dordzheev",
+    "description" : "Number artboards by numeric order",
+    "commands" : [
+        {
+            "script" : "Sort and Number.js",
+            "handler" : "onRun",
+            "name" : "Sort and Number",
+            "identifier" : "sort_and_number"
+        },
+        {
+            "script" : "Only Number.js",
+            "handler" : "onRun",
+            "name" : "Only Number",
+            "identifier" : "only_number"
+        },
+        {
+            "script" : "Only Sort.js",
+            "handler" : "onRun",
+            "name" : "Only Sort",
+            "identifier" : "only_sort"
+        }
+    ],
+    "menu" : {
+        "title" : "Sketch Number Artboards",
+        "items" : [
+            "sort_and_number",
+            "only_number",
+            "only_sort"
+        ]
+    }
+}
