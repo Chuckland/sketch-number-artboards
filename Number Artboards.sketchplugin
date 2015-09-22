@@ -52,6 +52,6 @@ if (selection.count() > 0) {
 		var curNameWONumber = artboard.name().replace(/^\d+\. /, '');
 
 		// Set new name
-		artboard.setName((i < 9 ? '0' : '') + (i+1) + '. ' + curNameWONumber);
+		artboard.setName((i <= 9 ? '0' : '') + (i+1) + '. ' + curNameWONumber);
 	};
 }
