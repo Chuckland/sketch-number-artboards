@@ -10,16 +10,16 @@
             "identifier" : "sort_and_number"
         },
         {
-            "script" : "Only Number.js",
+            "script" : "Number Artboards.js",
             "handler" : "onRun",
-            "name" : "Only Number",
-            "identifier" : "only_number"
+            "name" : "Number Artboards",
+            "identifier" : "number_artboards"
         },
         {
-            "script" : "Only Sort.js",
+            "script" : "Sort Artboards.js",
             "handler" : "onRun",
-            "name" : "Only Sort",
-            "identifier" : "only_sort"
+            "name" : "Sort Artboards",
+            "identifier" : "sort_artboards"
         },
         {
             "script" : "Set Text.js",
@@ -32,8 +32,8 @@
         "title" : "Sketch Number Artboards",
         "items" : [
             "sort_and_number",
-            "only_number",
-            "only_sort"
+            "number_artboards",
+            "sort_artboards",
             "set_text"
         ]
     }
