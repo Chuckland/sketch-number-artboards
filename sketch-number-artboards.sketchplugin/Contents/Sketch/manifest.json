@@ -20,6 +20,12 @@
             "handler" : "onRun",
             "name" : "Only Sort",
             "identifier" : "only_sort"
+        },
+        {
+            "script" : "Set Text.js",
+            "handler" : "onRun",
+            "name" : "Set Text",
+            "identifier" : "set_text"
         }
     ],
     "menu" : {
@@ -28,6 +34,7 @@
             "sort_and_number",
             "only_number",
             "only_sort"
+            "set_text"
         ]
     }
 }
