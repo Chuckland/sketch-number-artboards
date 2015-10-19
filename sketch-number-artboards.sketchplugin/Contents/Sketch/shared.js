@@ -37,10 +37,10 @@ com.adordzheev = {
     setArtboardNumber : function(artboard, number) {
         // Get current name.
         // If it contains number with the same formatting, then erase it.
-        var curNameWONumber = artboard.name().replace(/^\d+\. /, '');
+        var curNameWONumber = artboard.name().replace(/^\d+_/, '');
 
         // Set new name
-        artboard.setName((number < 9 ? '0' : '') + (number+1) + '. ' + curNameWONumber);
+        artboard.setName((number < 9 ? '0' : '') + (number+1) + '_' + curNameWONumber);
     },
 
     sendBackward : function() {
