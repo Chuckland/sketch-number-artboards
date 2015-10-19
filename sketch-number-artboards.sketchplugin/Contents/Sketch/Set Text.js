@@ -10,6 +10,7 @@ var onRun = function(context) {
     var CANCELLED = false;
     var NOT_READY = null;
     var textToSet;
+    var useOldValue;
 
     if (selection.count() == 0) {
         doc.showMessage('Select at least one text layer');
@@ -69,8 +70,12 @@ var onRun = function(context) {
 
         if (buttonClick === APPLY) {
 
+            // Найти *, если есть, выставить флаг «Использовать текущий текст»
+            var stringValue = [[modal viewAtIndex: 0] stringValue];
+            useOldValue = stringValue.match(/\*/g) ? true : false;
+
             // Grab the data from the form
-            textToSet = [[modal viewAtIndex: 0] stringValue];
+            textToSet = stringValue;
 
             // Make sure we have both text to find and replace
             if (textToSet != "") {
@@ -97,9 +102,15 @@ var onRun = function(context) {
 
     function doSetText() {
         var layer;
+        var oldValue;
+
         for (var i=0; i<selection.count(); i++) {
             layer = selection[i];
             if (layer.class() == MSTextLayer) {
+                if (useOldValue) {
+                    oldValue = layer.stringValue();
+                    textToSet = textToSet.replace(/\*/g, oldValue);
+                }
                 layer.setStringValue(textToSet);
                 layer.setName(textToSet);
             }

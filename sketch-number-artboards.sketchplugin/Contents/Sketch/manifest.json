@@ -25,7 +25,8 @@
             "script" : "Set Text.js",
             "handler" : "onRun",
             "name" : "Set Text",
-            "identifier" : "set_text"
+            "identifier" : "set_text",
+            "shortcut" : "cmd ctrl t"
         }
     ],
     "menu" : {
