@@ -6,7 +6,7 @@
         {
             "script" : "Sort and Number.js",
             "handler" : "onRun",
-            "name" : "Sort and Number",
+            "name" : "Sort and Number Artboards",
             "identifier" : "sort_and_number"
         },
         {
@@ -32,9 +32,9 @@
     "menu" : {
         "title" : "Sketch Number Artboards",
         "items" : [
-            "sort_and_number",
             "number_artboards",
             "sort_artboards",
+            "sort_and_number",
             "set_text"
         ]
     }
