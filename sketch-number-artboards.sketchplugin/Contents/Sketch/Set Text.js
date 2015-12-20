@@ -1,8 +1,7 @@
 @import "shared.js"
 
 var onRun = function(context) {
-    // Взять все выбранные слои
-    // Проверить, что они текстовые
+    // Проверить, что все выбранные слои текстовые
     var doc = context.document;
     var selection = context.selection;
     var APPLY = 1000;

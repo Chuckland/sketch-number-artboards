@@ -18,7 +18,7 @@ var onRun = function(context) {
     var layersMeta = [];
 	var layer, left, top;
     for (var i = 0; i < selection.count(); i++) {
-        layer = com.adordzheev.getArtboard(selection[i]);
+        layer = com.adordzheev.getParentArtboard(selection[i]);
         left = layer.frame().x();
         top = layer.frame().y();
         layersMeta.push({
@@ -30,12 +30,12 @@ var onRun = function(context) {
 
     try {
         // sort artboards by their top and left position
-        layersMeta.sort(com.adordzheev.sortTopAndLeft);
+        layersMeta.sort(com.adordzheev.sortByColumns);
 
         var layer;
         for (var i = 0; i < layersMeta.length; i++) {
             layer = layersMeta[i].layer;
-            com.adordzheev.setArtboardNumber(layer, i);
+            com.adordzheev.simpleNumberArtboards(layer, i);
         }
     } catch(e) {
         doc.showMessage(e.message);

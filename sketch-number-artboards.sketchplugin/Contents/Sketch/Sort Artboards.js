@@ -17,7 +17,7 @@ var onRun = function(context) {
     var layersMeta = [];
     var layer, left, top;
     for (var i = 0; i < selection.count(); i++) {
-        layer = com.adordzheev.getArtboard(selection[i]);
+        layer = com.adordzheev.getParentArtboard(selection[i]);
         left = layer.frame().x();
         top = layer.frame().y();
         layersMeta.push({
@@ -29,7 +29,7 @@ var onRun = function(context) {
 
     try {
         // sort artboards by their top and left position
-        layersMeta.sort(com.adordzheev.sortTopAndLeft);
+        layersMeta.sort(com.adordzheev.sortByColumns);
 
         // convert the array of meta objects to a flat array of artboard layers
         var layersMetaArray = [];

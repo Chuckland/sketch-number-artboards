@@ -6,19 +6,26 @@ var onRun = function(context) {
 
     com.adordzheev.init(context);
 
-    // Если ничего не выбрано, выбираем все артборды на текущей странице
+    // check if something is selected, otherwise select all artboards on current page
     if (selection.count() === 0) {
-        selection = doc.currentPage().artboards();
-        if (selection.count() === 0) {
-            doc.showMessage("There is no artboards");
-        }
+        doc.showMessage('Select at least one layer');
+        return false;
     }
 
     var layersMeta = [];
+    var layer, left, top, parent;
     for (var i = 0; i < selection.count(); i++) {
-        var layer = com.adordzheev.getArtboard(selection[i]);
-        var left = layer.frame().x();
-        var top = layer.frame().y();
+        layer = selection[i];
+
+        // parent layer should be the one
+        if (parent && parent != layer.parentGroup()) {
+            doc.showMessage('Select layers on one artboard and one layer');
+            return false;
+        }
+        parent = layer.parentGroup();
+        
+        left = layer.frame().x();
+        top = layer.frame().y();
         layersMeta.push({
             layer: layer,
             left: left,
@@ -28,7 +35,7 @@ var onRun = function(context) {
 
     try {
         // sort artboards by their top and left position
-        layersMeta.sort(com.adordzheev.sortTopAndLeft);
+        layersMeta.sort(com.adordzheev.sortByColumns);
 
         // convert the array of meta objects to a flat array of artboard layers
         var layersMetaArray = [];
@@ -36,7 +43,6 @@ var onRun = function(context) {
         var layer;
         for (var i = 0; i < layersMeta.length; i++) {
             layer = layersMeta[i].layer;
-            com.adordzheev.setArtboardNumber(layer, i);
             layersMetaArray.push(layer);
         }
 
