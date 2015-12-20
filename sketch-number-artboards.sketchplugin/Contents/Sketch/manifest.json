@@ -9,7 +9,7 @@
         {
             "script" : "Sort and Number.cocoascript",
             "handler" : "onRun",
-            "name" : "Sort and Number",
+            "name" : "Sort and Number Artboards",
             "identifier" : "sort_and_number"
         },
         {
@@ -36,24 +36,15 @@
             "name" : "Set Text",
             "identifier" : "set_text",
             "shortcut" : "cmd ctrl t"
-        },
-        {
-            "script" : "Select All Layers in Group.js",
-            "handler" : "onRun",
-            "name" : "Select All Layers in Group",
-            "identifier" : "select_all_layers_in_group",
-            "shortcut" : "cmd shift a"
         }
     ],
     "menu" : {
         "title" : "Sketch Number Artboards",
         "items" : [
-            "sort_and_number",
             "number_artboards",
             "sort_artboards",
             "sort_layers",
             "set_text",
-            "select_all_layers_in_group"
         ]
     }
 }
