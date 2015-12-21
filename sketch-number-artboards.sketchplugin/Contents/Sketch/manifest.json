@@ -41,6 +41,7 @@
     "menu" : {
         "title" : "Sketch Number Artboards",
         "items" : [
+            "sort_and_number",
             "number_artboards",
             "sort_artboards",
             "sort_layers",
