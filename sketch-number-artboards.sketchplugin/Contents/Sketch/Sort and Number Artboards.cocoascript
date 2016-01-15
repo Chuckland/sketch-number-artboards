@@ -59,14 +59,9 @@ var onRun = function(context) {
             style: numberParams.style
          });
 
-        // Если ничего не выбрано, выбираем все артборды на текущей странице
         if (selection.count() === 0) {
-            selection = doc.currentPage().artboards();
-
-            if (selection.count() === 0) {
-                doc.showMessage("There is no artboards");
-                return;
-            }
+            doc.showMessage("Select at least one artboard");
+            return;
         }
 
         var layersData = [];
