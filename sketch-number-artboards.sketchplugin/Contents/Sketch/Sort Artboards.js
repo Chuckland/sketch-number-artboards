@@ -8,10 +8,8 @@ var onRun = function(context) {
 
     // Если ничего не выбрано, выбираем все артборды на текущей странице
     if (selection.count() === 0) {
-        selection = doc.currentPage().artboards();
-        if (selection.count() === 0) {
-            doc.showMessage("There is no artboards");
-        }
+        doc.showMessage("Select at least one artboard");
+        return;
     }
 
     var layersMeta = [];
