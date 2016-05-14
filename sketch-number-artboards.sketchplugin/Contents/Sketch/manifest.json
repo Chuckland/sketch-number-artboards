@@ -7,35 +7,22 @@
     "identifier": "com.adordzheev.sketch-number-artboards",
     "commands" : [
         {
-            "script" : "Sort and Number Artboards.cocoascript",
-            "handler" : "onRun",
-            "name" : "Sort and Number",
-            "identifier" : "sort_and_number_artboards"
-        },
-        {
-            "script" : "Number Artboards.js",
+            "script" : "Number Artboards.cocoascript",
             "handler" : "onRun",
             "name" : "Number",
             "identifier" : "number_artboards"
         },
         {
-            "script" : "Sort Artboards.js",
+            "script" : "Sort Artboards in Layers List.js",
             "handler" : "onRun",
-            "name" : "Sort",
-            "identifier" : "sort_artboards"
+            "name" : "Sort in Layers List",
+            "identifier" : "sort_artboards_in_layers_list"
         },
         {
             "script" : "Sort Layers.js",
             "handler" : "onRun",
-            "name" : "Sort Layers",
+            "name" : "Sort in Layers List",
             "identifier" : "sort_layers"
-        },
-        {
-            "script" : "Set Text.js",
-            "handler" : "onRun",
-            "name" : "Set Text",
-            "identifier" : "set_text",
-            "shortcut" : "cmd ctrl t"
         }
     ],
     "menu" : {
@@ -44,21 +31,14 @@
             {
                 "title" : "Artboards",
                 "items": [
-                    "sort_and_number_artboards",
                     "number_artboards",
-                    "sort_artboards"
+                    "sort_artboards_in_layers_list"
                 ]
             },
             {
                 "title" : "Layers",
                 "items": [
                     "sort_layers"
-                ]
-            },
-            {
-                "title" : "Text",
-                "items": [
-                    "set_text"
                 ]
             }
         ]

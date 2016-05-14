@@ -45,9 +45,9 @@ com.adordzheev = {
 
     numberArtboardsBySeries: function(artboard, serie, number) {
         var currentName = artboard.name();
-        var numsFreeName = currentName.replace(/^\d+\-\d+_/, '');
+        var numsFreeName = currentName.replace(/^\d+\_\d+_/, '');
 
-        artboard.setName("" + (serie + 1) + "-" + (number < 9 ? '0' : '') + (number + 1) + '_' + numsFreeName);
+        artboard.setName((serie < 9 ? '0' : '') + (serie + 1) + "_" + (number < 9 ? '0' : '') + (number + 1) + '_' + numsFreeName);
     },
 
     sendBackward : function() {
@@ -106,6 +106,34 @@ com.adordzheev = {
         for (var i = 0; i < steps; i++) {
             com.adordzheev.sendBackward();
         }
+    },
+
+    createButtons : function(options, selectedItem) {
+        var rows = 1;
+        var columns = options.length;
+
+        var selectedRow = 0;
+        var selectedColumn = selectedItem;
+
+        var buttonCell = [[NSButtonCell alloc] init];
+        [buttonCell setButtonType:NSRadioButton];
+
+        var buttonMatrix = [[NSMatrix alloc]
+            initWithFrame:NSMakeRect(20.0, 20.0, 300.0, rows*25.0)
+            mode:NSRadioModeMatrix
+            prototype:buttonCell
+            numberOfRows:rows
+            numberOfColumns:columns];
+        [buttonMatrix setCellSize:NSMakeSize(140, 20)];
+
+        for (var i = 0; i < options.length; i++) {
+            [[[buttonMatrix cells] objectAtIndex:i] setTitle:options[i]];
+            [[[buttonMatrix cells] objectAtIndex:i] setTag:i];
+        }
+
+        [buttonMatrix selectCellAtRow:selectedRow column:selectedColumn];
+
+        return buttonMatrix;
     }
 };
 

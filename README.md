@@ -3,10 +3,8 @@ Simple plug-in for Sketch to number artboards.
 
 ## How it works
 
-Three functions that apply to selected artboards or all artboards:
-
 ### Only number
-Add number at the beginning of artboard name by its canvas position.
+Add number to artboard name. Number is chosen by artboard location on the canvas. If artboard name already has a number, plugin refreshes it.
 
 For example: artboard with name "Screen" becomes "01. Screen". If same style number presents in artboard name, it will be replaced.
 
@@ -16,7 +14,7 @@ For example: artboard with name "Screen" becomes "01. Screen". If same style num
 
 
 ### Only sort
-Sort artboards in layer list by its canvas position. 
+Sort artboards in layer list by its canvas position.
 
 ### Sort and Number
 Apply both sort and number functions.

@@ -6,7 +6,6 @@ var onRun = function(context) {
 
     com.adordzheev.init(context);
 
-    // check if something is selected, otherwise select all artboards on current page
     if (selection.count() === 0) {
         doc.showMessage('Select at least one layer');
         return false;
@@ -23,7 +22,7 @@ var onRun = function(context) {
             return false;
         }
         parent = layer.parentGroup();
-        
+
         left = layer.frame().x();
         top = layer.frame().y();
         layersMeta.push({

@@ -1,51 +1,40 @@
 @import 'shared.js'
 
-var createButtons = function(options, selectedItem) {
-    var rows = 1;
-    var columns = options.length;
-
-    var selectedRow = 0;
-    var selectedColumn = selectedItem;
-
-    var buttonCell = [[NSButtonCell alloc] init];
-        [buttonCell setButtonType:NSRadioButton];
-
-    var buttonMatrix = [[NSMatrix alloc] initWithFrame:NSMakeRect(20.0, 20.0, 300.0, rows*25.0) mode:NSRadioModeMatrix prototype:buttonCell numberOfRows:rows numberOfColumns:columns];
-        [buttonMatrix setCellSize:NSMakeSize(140, 20)];
-
-    for (var i = 0; i < options.length; i++) {
-        [[[buttonMatrix cells] objectAtIndex:i] setTitle:options[i]];
-        [[[buttonMatrix cells] objectAtIndex:i] setTag:i];
-    }
-
-    [buttonMatrix selectCellAtRow:selectedRow column:selectedColumn];
-
-    return buttonMatrix;
-}
-
 var getNumberParameters = function(defaults) {
     var window = COSAlertWindow.new();
-    window.setMessageText("Sort And Number Artboards")
+    window.setMessageText("Number Artboards")
+
     window.addTextLabelWithValue("Number Order:")
-    window.addAccessoryView(createButtons(["By Columns", "By Rows"], defaults.values.order));
+    window.addAccessoryView(com.adordzheev.createButtons(["By Columns", "By Rows"], defaults.values.order));
+
     window.addTextLabelWithValue("Number Style:")
-    window.addAccessoryView(createButtons(["1, 2, 3...", "1_01, 1_02, 2_01..."], defaults.values.style));
+    window.addAccessoryView(com.adordzheev.createButtons(["1, 2, 3...", "1_01, 1_02, 2_01..."], defaults.values.style));
+
     window.addButtonWithTitle("OK");
     window.addButtonWithTitle("Cancel");
+
+    var sortBox = NSButton.alloc().initWithFrame(NSMakeRect(0,0,250,25));
+    sortBox.setTitle("Sort artboards in layers list");
+    sortBox.setButtonType(NSSwitchButton);
+    sortBox.setState(defaults.values.sort);
+
+    window.addAccessoryView(sortBox);
 
     return {
         button: window.runModal(),
         order: [[[window viewAtIndex:1] selectedCell] tag],
-        style: [[[window viewAtIndex:3] selectedCell] tag]
+        style: [[[window viewAtIndex:3] selectedCell] tag],
+        sort: sortBox.state()
     };
-}
+};
 
 var onRun = function(context) {
     var doc = context.document;
     var selection = context.selection;
     var initialValues = {
         order: 0,
-        style: 0
+        style: 0,
+        sort: false
     };
     var defaults = new DefaultsManager("com.adordzheev.sketch-number-artboards");
     defaults.init(initialValues);
@@ -56,7 +45,8 @@ var onRun = function(context) {
     if (numberParams.button == 1000) {
         defaults.save({
             order: numberParams.order,
-            style: numberParams.style
+            style: numberParams.style,
+            sort: numberParams.sort
          });
 
         if (selection.count() === 0) {
@@ -116,7 +106,9 @@ var onRun = function(context) {
             }
 
             // sort layer list
-            com.adordzheev.sortIndices(layersMetaArray);
+            if (numberParams.sort) {
+                com.adordzheev.sortIndices(layersMetaArray);
+            }
         } catch (e) {
             doc.showMessage(e.message);
         }

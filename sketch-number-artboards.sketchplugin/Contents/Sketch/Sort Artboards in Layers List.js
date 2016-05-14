@@ -1,5 +1,20 @@
 @import 'shared.js'
 
+var getParameters = function(defaults) {
+    var window = COSAlertWindow.new();
+    window.setMessageText("Sort Artboards in Layers List")
+    window.addTextLabelWithValue("Order:")
+    window.addAccessoryView(com.adordzheev.createButtons(["By Columns", "By Rows"], defaults.values.order));
+    window.addButtonWithTitle("OK");
+    window.addButtonWithTitle("Cancel");
+
+    return {
+        button: window.runModal(),
+        order: [[[window viewAtIndex:1] selectedCell] tag],
+        sort: sortBox.state()
+    };
+}
+
 var onRun = function(context) {
     var doc = context.document;
     var selection = context.selection;
