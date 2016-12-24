@@ -9,6 +9,7 @@ Add number at beginning of artboard name.
 Plugin chooses number for artboard according its location on the canvas. If artboard already has a number, plugin refreshes it.
 
 There is two numbering mode:
+
 1. By columns
 ![By Columns](https://dl.dropboxusercontent.com/u/18435190/sketch-number-artboards/by-columns.png)
 
