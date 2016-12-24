@@ -41,6 +41,11 @@ var onRun = function(context) {
 
     com.adordzheev.init(context);
 
+    if (selection.count() === 0) {
+        doc.showMessage("Select at least one artboard");
+        return;
+    }
+
     var numberParams = getNumberParameters(defaults);
     if (numberParams.button == 1000) {
         defaults.save({
@@ -48,11 +53,6 @@ var onRun = function(context) {
             style: numberParams.style,
             sort: numberParams.sort
          });
-
-        if (selection.count() === 0) {
-            doc.showMessage("Select at least one artboard");
-            return;
-        }
 
         var layersData = [];
         for (var i = 0; i < selection.count(); i++) {
