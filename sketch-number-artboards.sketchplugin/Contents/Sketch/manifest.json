@@ -2,32 +2,28 @@
     "name" : "Number Artboards",
     "author" : "Anton Dordzheev",
     "description" : "Number artboards by numeric order",
+    "homepage": "https://github.com/Chuckland/sketch-number-artboards",
+    "version": "1.2",
+    "identifier": "com.adordzheev.sketch-number-artboards",
     "commands" : [
         {
-            "script" : "Sort and Number.js",
+            "script" : "Number Artboards.cocoascript",
             "handler" : "onRun",
-            "name" : "Sort and Number",
-            "identifier" : "sort_and_number"
+            "name" : "Number Artboards",
+            "identifier" : "number_artboards"
         },
         {
-            "script" : "Only Number.js",
+            "script" : "Sort Artboards in Layers List.js",
             "handler" : "onRun",
-            "name" : "Only Number",
-            "identifier" : "only_number"
-        },
-        {
-            "script" : "Only Sort.js",
-            "handler" : "onRun",
-            "name" : "Only Sort",
-            "identifier" : "only_sort"
+            "name" : "Sort Artboards in Layers List",
+            "identifier" : "sort_artboards_in_layers_list"
         }
     ],
     "menu" : {
         "title" : "Sketch Number Artboards",
         "items" : [
-            "sort_and_number",
-            "only_number",
-            "only_sort"
+            "number_artboards",
+            "sort_artboards_in_layers_list"
         ]
     }
 }

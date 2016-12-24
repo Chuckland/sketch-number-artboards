@@ -7,7 +7,7 @@ com.adordzheev = {
         [app displayDialog:message withTitle:title];
     },
 
-    getArtboard : function(layer) {
+    getParentArtboard : function(layer) {
     	if (layer.className() == 'MSArtboardGroup') {
     		return layer;
     	}
@@ -34,13 +34,20 @@ com.adordzheev = {
         com.adordzheev.doc = context.document;
     },
 
-    setArtboardNumber : function(artboard, number) {
-        // Get current name.
-        // If it contains number with the same formatting, then erase it.
-        var curNameWONumber = artboard.name().replace(/^\d+\. /, '');
+    simpleNumberArtboards : function(artboard, number) {
+        // Delete old number from artboard name
+        var currentName = artboard.name();
+        var numsFreeName = currentName.replace(/^\d+_/, '');
 
-        // Set new name
-        artboard.setName((number < 9 ? '0' : '') + (number+1) + '. ' + curNameWONumber);
+        // Add new number
+        artboard.setName((number < 9 ? '0' : '') + (number + 1) + '_' + numsFreeName);
+    },
+
+    numberArtboardsBySeries: function(artboard, serie, number) {
+        var currentName = artboard.name();
+        var numsFreeName = currentName.replace(/^\d+\_\d+_/, '');
+
+        artboard.setName((serie < 9 ? '0' : '') + (serie + 1) + "_" + (number < 9 ? '0' : '') + (number + 1) + '_' + numsFreeName);
     },
 
     sendBackward : function() {
@@ -70,12 +77,14 @@ com.adordzheev = {
         }
     },
 
-    sortTopAndLeft : function(a,b) {
+    sortByColumns : function(a, b) {
         var dif = a.left - b.left;
-        if (dif == 0) {
-            return a.top - b.top;
-        }
-        return dif;
+        return (dif === 0) ? a.top - b.top : dif;
+    },
+
+    sortByRows : function(a, b) {
+        var dif = a.top - b.top;
+        return (dif === 0) ? a.left - b.left : dif;
     },
 
     swapIndex : function(a, b) {
@@ -97,5 +106,66 @@ com.adordzheev = {
         for (var i = 0; i < steps; i++) {
             com.adordzheev.sendBackward();
         }
+    },
+
+    createButtons : function(options, selectedItem) {
+        var rows = 1;
+        var columns = options.length;
+
+        var selectedRow = 0;
+        var selectedColumn = selectedItem;
+
+        var buttonCell = [[NSButtonCell alloc] init];
+        [buttonCell setButtonType:NSRadioButton];
+
+        var buttonMatrix = [[NSMatrix alloc]
+            initWithFrame:NSMakeRect(20.0, 20.0, 300.0, rows*25.0)
+            mode:NSRadioModeMatrix
+            prototype:buttonCell
+            numberOfRows:rows
+            numberOfColumns:columns];
+        [buttonMatrix setCellSize:NSMakeSize(140, 20)];
+
+        for (var i = 0; i < options.length; i++) {
+            [[[buttonMatrix cells] objectAtIndex:i] setTitle:options[i]];
+            [[[buttonMatrix cells] objectAtIndex:i] setTag:i];
+        }
+
+        [buttonMatrix selectCellAtRow:selectedRow column:selectedColumn];
+
+        return buttonMatrix;
     }
 };
+
+var DefaultsManager = function(pluginDomain) {
+    this.pluginDomain = pluginDomain;
+    this.values = {};
+};
+
+DefaultsManager.prototype = {
+    init: function(initialValues) {
+        var defaults = [[NSUserDefaults standardUserDefaults] objectForKey:this.pluginDomain];
+        var defaultValues = {};
+        var dVal;
+
+        for (var key in defaults) {
+            defaultValues[key] = defaults[key];
+        }
+
+        for (var key in initialValues) {
+            dVal = defaultValues[key];
+            if (!dVal) {
+                defaultValues[key] = initialValues[key];
+            }
+        }
+
+        this.values = defaultValues;
+    },
+
+    save: function(values) {
+        if (this.pluginDomain) {
+            var defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setObject:values forKey:this.pluginDomain];
+        }
+    }
+}

@@ -8,16 +8,14 @@ var onRun = function(context) {
 
     // Если ничего не выбрано, выбираем все артборды на текущей странице
     if (selection.count() === 0) {
-        selection = doc.currentPage().artboards();
-        if (selection.count() === 0) {
-            doc.showMessage("There is no artboards");
-        }
+        doc.showMessage("Select at least one artboard");
+        return;
     }
 
     var layersMeta = [];
     var layer, left, top;
     for (var i = 0; i < selection.count(); i++) {
-        layer = com.adordzheev.getArtboard(selection[i]);
+        layer = com.adordzheev.getParentArtboard(selection[i]);
         left = layer.frame().x();
         top = layer.frame().y();
         layersMeta.push({
@@ -29,7 +27,7 @@ var onRun = function(context) {
 
     try {
         // sort artboards by their top and left position
-        layersMeta.sort(com.adordzheev.sortTopAndLeft);
+        layersMeta.sort(com.adordzheev.sortByColumns);
 
         // convert the array of meta objects to a flat array of artboard layers
         var layersMetaArray = [];

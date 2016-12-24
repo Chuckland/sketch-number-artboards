@@ -1,0 +1,116 @@
+@import 'shared.js'
+
+var getNumberParameters = function(defaults) {
+    var window = COSAlertWindow.new();
+    window.setMessageText("Number Artboards")
+
+    window.addTextLabelWithValue("Number Order:")
+    window.addAccessoryView(com.adordzheev.createButtons(["By Columns", "By Rows"], defaults.values.order));
+
+    window.addTextLabelWithValue("Number Style:")
+    window.addAccessoryView(com.adordzheev.createButtons(["1, 2, 3...", "1_01, 1_02, 2_01..."], defaults.values.style));
+
+    window.addButtonWithTitle("OK");
+    window.addButtonWithTitle("Cancel");
+
+    var sortBox = NSButton.alloc().initWithFrame(NSMakeRect(0,0,250,25));
+    sortBox.setTitle("Sort artboards in layers list");
+    sortBox.setButtonType(NSSwitchButton);
+    sortBox.setState(defaults.values.sort);
+
+    window.addAccessoryView(sortBox);
+
+    return {
+        button: window.runModal(),
+        order: [[[window viewAtIndex:1] selectedCell] tag],
+        style: [[[window viewAtIndex:3] selectedCell] tag],
+        sort: sortBox.state()
+    };
+};
+
+var onRun = function(context) {
+    var doc = context.document;
+    var selection = context.selection;
+    var initialValues = {
+        order: 0,
+        style: 0,
+        sort: false
+    };
+    var defaults = new DefaultsManager("com.adordzheev.sketch-number-artboards");
+    defaults.init(initialValues);
+
+    com.adordzheev.init(context);
+
+    if (selection.count() === 0) {
+        doc.showMessage("Select at least one artboard");
+        return;
+    }
+
+    var numberParams = getNumberParameters(defaults);
+    if (numberParams.button == 1000) {
+        defaults.save({
+            order: numberParams.order,
+            style: numberParams.style,
+            sort: numberParams.sort
+         });
+
+        var layersData = [];
+        for (var i = 0; i < selection.count(); i++) {
+            var layer = com.adordzheev.getParentArtboard(selection[i]);
+            var left = layer.frame().x();
+            var top = layer.frame().y();
+            layersData.push({
+                layer: layer,
+                left: left,
+                top: top
+            });
+        }
+
+        var sortMethod = (numberParams.order === 0)
+            ? com.adordzheev.sortByColumns
+            : com.adordzheev.sortByRows;
+
+        try {
+            layersData.sort(sortMethod);
+
+            var layersMetaArray = [];
+            var layer;
+
+            // Choose how to number artboards by specified number style
+            if (numberParams.style === 0) {
+                for (var i = 0; i < layersData.length; i++) {
+                    layer = layersData[i].layer;
+                    com.adordzheev.simpleNumberArtboards(layer, i);
+                    layersMetaArray.push(layer);
+                }
+            } else {
+                var serie = 0;
+                var number = 0;
+                var prevLayer;
+                for (var i = 0; i < layersData.length; i++) {
+                    layer = layersData[i].layer;
+                    if (prevLayer) {
+                        var p1 = numberParams.order === 0 ? layer.frame().x() : layer.frame().y();
+                        var p2 = numberParams.order === 0 ? prevLayer.frame().x() : prevLayer.frame().y();
+                        if (p1 > p2) {
+                            serie++;
+                            number = 0;
+                        } else {
+                            number++;
+                        }
+                    }
+                    com.adordzheev.numberArtboardsBySeries(layer, serie, number);
+                    layersMetaArray.push(layer);
+                    prevLayer = layer;
+                }
+            }
+
+            // sort layer list
+            if (numberParams.sort) {
+                com.adordzheev.sortIndices(layersMetaArray);
+            }
+        } catch (e) {
+            doc.showMessage(e.message);
+        }
+    }
+}
