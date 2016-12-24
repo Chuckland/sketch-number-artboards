@@ -9,38 +9,21 @@
         {
             "script" : "Number Artboards.cocoascript",
             "handler" : "onRun",
-            "name" : "Number",
+            "name" : "Number Artboards",
             "identifier" : "number_artboards"
         },
         {
             "script" : "Sort Artboards in Layers List.js",
             "handler" : "onRun",
-            "name" : "Sort in Layers List",
+            "name" : "Sort Artboards in Layers List",
             "identifier" : "sort_artboards_in_layers_list"
-        },
-        {
-            "script" : "Sort Layers.js",
-            "handler" : "onRun",
-            "name" : "Sort in Layers List",
-            "identifier" : "sort_layers"
         }
     ],
     "menu" : {
         "title" : "Sketch Number Artboards",
         "items" : [
-            {
-                "title" : "Artboards",
-                "items": [
-                    "number_artboards",
-                    "sort_artboards_in_layers_list"
-                ]
-            },
-            {
-                "title" : "Layers",
-                "items": [
-                    "sort_layers"
-                ]
-            }
+            "number_artboards",
+            "sort_artboards_in_layers_list"
         ]
     }
 }
