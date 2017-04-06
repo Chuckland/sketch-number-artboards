@@ -11,10 +11,10 @@ Plugin chooses number for artboard according its location on the canvas. If artb
 There is two numbering mode:
 
 1. By columns
-![By Columns](https://dl.dropboxusercontent.com/u/18435190/sketch-number-artboards/by-columns.png)
+![By Columns](resource/readme-1.png)
 
 2. By rows
-![By Rows](https://dl.dropboxusercontent.com/u/18435190/sketch-number-artboards/by-rows.png)
+![By Rows](resource/readme-2.png)
 
 
 #### Sort Artboards in Layers List
