@@ -1,46 +1,32 @@
 @import 'shared.js'
 
 var onRun = function(context) {
-    var doc = context.document;
-    var selection = context.selection;
+    var sketch = context.api(),
+        selectedLayers = sketch.selectedDocument.selectedLayers;
 
-    com.adordzheev.init(context);
-
-    // Если ничего не выбрано, выбираем все артборды на текущей странице
-    if (selection.count() === 0) {
-        doc.showMessage("Select at least one artboard");
+    if (selectedLayers.length === 0) {
+        sketch.message("Select at least one artboard");
         return;
     }
 
-    var layersMeta = [];
-    var layer, left, top;
-    for (var i = 0; i < selection.count(); i++) {
-        layer = com.adordzheev.getParentArtboard(selection[i]);
-        left = layer.frame().x();
-        top = layer.frame().y();
-        layersMeta.push({
-            layer: layer,
-            left: left,
-            top: top
-        });
-    }
+    var artboardsMeta = com.adordzheev.collectArtboardsMeta(selectedLayers);
 
     try {
         // sort artboards by their top and left position
-        layersMeta.sort(com.adordzheev.sortByColumns);
+        artboardsMeta.sort(com.adordzheev.sortByColumns);
 
         // convert the array of meta objects to a flat array of artboard layers
-        var layersMetaArray = [];
+        var artboardsMetaArray = [];
 
         var layer;
-        for (var i = 0; i < layersMeta.length; i++) {
-            layer = layersMeta[i].layer;
-            layersMetaArray.push(layer);
+        for (var i = 0; i < artboardsMeta.length; i++) {
+            layer = artboardsMeta[i].layer;
+            artboardsMetaArray.push(layer);
         }
 
         // sort layer list
-        com.adordzheev.sortIndices(layersMetaArray);
+        com.adordzheev.sortIndices(artboardsMetaArray);
     } catch(e) {
-        doc.showMessage(e.message);
+        sketch.message(e.message);
     }
 }

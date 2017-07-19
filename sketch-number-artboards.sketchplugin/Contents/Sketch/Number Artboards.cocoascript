@@ -1,6 +1,6 @@
 @import 'shared.js'
 
-var getNumberParameters = function(defaults) {
+var getUserParameters = function(defaults) {
     var window = COSAlertWindow.new();
     window.setMessageText("Number Artboards")
 
@@ -29,69 +29,60 @@ var getNumberParameters = function(defaults) {
 };
 
 var onRun = function(context) {
-    var doc = context.document;
-    var selection = context.selection;
-    var initialValues = {
-        order: 0,
-        style: 0,
-        sort: false
-    };
-    var defaults = new DefaultsManager("com.adordzheev.sketch-number-artboards");
+    var sketch = context.api(),
+        selectedLayers = sketch.selectedDocument.selectedLayers,
+        initialValues = {
+            order: 0,
+            style: 0,
+            sort: false
+        },
+        defaults = new DefaultsManager("com.adordzheev.sketch-number-artboards");
+
     defaults.init(initialValues);
 
-    com.adordzheev.init(context);
-
-    if (selection.count() === 0) {
-        doc.showMessage("Select at least one artboard");
+    if (selectedLayers.length === 0) {
+        sketch.message("Select at least one artboard");
         return;
     }
 
-    var numberParams = getNumberParameters(defaults);
-    if (numberParams.button == 1000) {
+    var userParameters = getUserParameters(defaults);
+
+    if (userParameters.button == 1000) {
         defaults.save({
-            order: numberParams.order,
-            style: numberParams.style,
-            sort: numberParams.sort
+            order: userParameters.order,
+            style: userParameters.style,
+            sort: userParameters.sort
          });
 
-        var layersData = [];
-        for (var i = 0; i < selection.count(); i++) {
-            var layer = com.adordzheev.getParentArtboard(selection[i]);
-            var left = layer.frame().x();
-            var top = layer.frame().y();
-            layersData.push({
-                layer: layer,
-                left: left,
-                top: top
-            });
-        }
+        var artboardsMeta = com.adordzheev.collectArtboardsMeta(selectedLayers);
 
-        var sortMethod = (numberParams.order === 0)
+        var sortMethod = (userParameters.order === 0)
             ? com.adordzheev.sortByColumns
             : com.adordzheev.sortByRows;
 
         try {
-            layersData.sort(sortMethod);
+            artboardsMeta.sort(sortMethod);
 
-            var layersMetaArray = [];
-            var layer;
+            var artboardsMetaArray = [],
+                layer;
 
             // Choose how to number artboards by specified number style
-            if (numberParams.style === 0) {
-                for (var i = 0; i < layersData.length; i++) {
-                    layer = layersData[i].layer;
+            if (userParameters.style === 0) {
+                for (var i = 0; i < artboardsMeta.length; i++) {
+                    layer = artboardsMeta[i].layer;
                     com.adordzheev.simpleNumberArtboards(layer, i);
-                    layersMetaArray.push(layer);
+                    artboardsMetaArray.push(layer);
                 }
             } else {
-                var serie = 0;
-                var number = 0;
-                var prevLayer;
-                for (var i = 0; i < layersData.length; i++) {
-                    layer = layersData[i].layer;
+                var serie = 0,
+                    number = 0,
+                    prevLayer;
+
+                for (var i = 0; i < artboardsMeta.length; i++) {
+                    layer = artboardsMeta[i].layer;
                     if (prevLayer) {
-                        var p1 = numberParams.order === 0 ? layer.frame().x() : layer.frame().y();
-                        var p2 = numberParams.order === 0 ? prevLayer.frame().x() : prevLayer.frame().y();
+                        var p1 = userParameters.order === 0 ? layer.frame.x : layer.frame.y,
+                            p2 = userParameters.order === 0 ? prevLayer.frame.x : prevLayer.frame.y;
                         if (p1 > p2) {
                             serie++;
                             number = 0;
@@ -100,17 +91,17 @@ var onRun = function(context) {
                         }
                     }
                     com.adordzheev.numberArtboardsBySeries(layer, serie, number);
-                    layersMetaArray.push(layer);
+                    artboardsMetaArray.push(layer);
                     prevLayer = layer;
                 }
             }
 
             // sort layer list
-            if (numberParams.sort) {
-                com.adordzheev.sortIndices(layersMetaArray);
+            if (userParameters.sort) {
+                com.adordzheev.sortIndices(artboardsMetaArray);
             }
         } catch (e) {
-            doc.showMessage(e.message);
+            sketch.message(e.message);
         }
     }
 }
