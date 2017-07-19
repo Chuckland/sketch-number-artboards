@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"  xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel>
+        <title>Number Artboards</title>
+        <link>https://raw.githubusercontent.com/Chuckland/sketch-number-artboards/master/appcast.xml</link>
+        <description>Number artboards by numeric order</description>
+        <language>en</language>
+        <item>
+            <title>Version 1.3</title>
+            <description>
+                <![CDATA[
+                    <ul>
+                        <li>Delimiters</li>
+                    </ul>
+                ]]>
+            </description>
+            <pubDate>Wed, 19 Jul 2017 23:30:23 +0500</pubDate>
+            <enclosure url="https://github.com/Chuckland/sketch-number-artboards/archive/v1.3.zip" sparkle:version="1.3" type="application/octet-stream" />
+        </item>
+    </channel>
+</rss>
