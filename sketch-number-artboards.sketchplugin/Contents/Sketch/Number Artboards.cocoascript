@@ -4,11 +4,14 @@ var getUserParameters = function(defaults) {
     var window = COSAlertWindow.new();
     window.setMessageText("Number Artboards")
 
-    window.addTextLabelWithValue("Number Order:")
+    window.addTextLabelWithValue("Number Order:");
     window.addAccessoryView(com.adordzheev.createButtons(["By Columns", "By Rows"], defaults.values.order));
 
-    window.addTextLabelWithValue("Number Style:")
+    window.addTextLabelWithValue("Number Style:");
     window.addAccessoryView(com.adordzheev.createButtons(["1, 2, 3...", "1_01, 1_02, 2_01..."], defaults.values.style));
+
+    window.addTextLabelWithValue("Delimiter:");
+    window.addTextFieldWithValue(defaults.values.delimiter);
 
     window.addButtonWithTitle("OK");
     window.addButtonWithTitle("Cancel");
@@ -24,6 +27,7 @@ var getUserParameters = function(defaults) {
         button: window.runModal(),
         order: [[[window viewAtIndex:1] selectedCell] tag],
         style: [[[window viewAtIndex:3] selectedCell] tag],
+        delimiter: [[window viewAtIndex:5] stringValue],
         sort: sortBox.state()
     };
 };
@@ -34,6 +38,7 @@ var onRun = function(context) {
         initialValues = {
             order: 0,
             style: 0,
+            delimiter: '_',
             sort: false
         },
         defaults = new DefaultsManager("com.adordzheev.sketch-number-artboards");
@@ -51,6 +56,7 @@ var onRun = function(context) {
         defaults.save({
             order: userParameters.order,
             style: userParameters.style,
+            delimiter: userParameters.delimiter,
             sort: userParameters.sort
          });
 
@@ -70,7 +76,8 @@ var onRun = function(context) {
             if (userParameters.style === 0) {
                 for (var i = 0; i < artboardsMeta.length; i++) {
                     layer = artboardsMeta[i].layer;
-                    com.adordzheev.simpleNumberArtboards(layer, i);
+                    com.adordzheev.simpleNumberArtboards(
+                        layer, i, userParameters.delimiter);
                     artboardsMetaArray.push(layer);
                 }
             } else {
@@ -90,7 +97,8 @@ var onRun = function(context) {
                             number++;
                         }
                     }
-                    com.adordzheev.numberArtboardsBySeries(layer, serie, number);
+                    com.adordzheev.numberArtboardsBySeries(
+                        layer, serie, number, userParameters.delimiter);
                     artboardsMetaArray.push(layer);
                     prevLayer = layer;
                 }

@@ -9,20 +9,22 @@ com.adordzheev = {
         }
     },
 
-    simpleNumberArtboards : function(artboard, number) {
+    simpleNumberArtboards : function(artboard, number, delimiter) {
         // Delete old number from artboard name
         var currentName = artboard.name;
-        var numsFreeName = currentName.replace(/^\d+_/, '');
+        var re = new RegExp('^\\d+' + delimiter);
+        var numsFreeName = currentName.replace(re, '');
 
         // Add new number
-        artboard.name = (number < 9 ? '0' : '') + (number + 1) + '_' + numsFreeName;
+        artboard.name = (number < 9 ? '0' : '') + (number + 1) + delimiter + numsFreeName;
     },
 
-    numberArtboardsBySeries: function(artboard, serie, number) {
+    numberArtboardsBySeries: function(artboard, serie, number, delimiter) {
         var currentName = artboard.name;
-        var numsFreeName = currentName.replace(/^\d+\_\d+_/, '');
+        var re = new RegExp('^\\d+' + delimiter + '\\d+' + delimiter);
+        var numsFreeName = currentName.replace(re, '');
 
-        artboard.name = (serie < 9 ? '0' : '') + (serie + 1) + "_" + (number < 9 ? '0' : '') + (number + 1) + '_' + numsFreeName;
+        artboard.name = (serie < 9 ? '0' : '') + (serie + 1) + delimiter + (number < 9 ? '0' : '') + (number + 1) + delimiter + numsFreeName;
     },
 
     sortIndices : function(array) {
