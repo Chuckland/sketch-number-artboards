@@ -1,3 +1,7 @@
+**⚠️ Deprecated**
+
+Plug-in is deprecated and repo is read-only. If you need it try to use [Organize Artboards](https://github.com/mochang/Sketch-Organize_artboards) as alternative 
+
 # sketch-number-artboards
 Sketch plugin to number and sort artboards in layers list.
 
